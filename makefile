@@ -9,7 +9,7 @@ SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 final: $(OBJ_FILES)
-	gcc $(CFLAGS) $(OBJ_FILES) -o $(OBJ_DIR)/$(FINAL_NAME).exe
+	@gcc $(CFLAGS) $(OBJ_FILES) -o $(OBJ_DIR)/$(FINAL_NAME).exe
 	@make run
 	@make clean
 
