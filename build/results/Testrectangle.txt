@@ -1,0 +1,5 @@
+test/Testrectangle.c:12:test_AverageThreeBytes_should_AverageMidRangeValues:PASS
+
+-----------------------
+1 Tests 0 Failures 0 Ignored 
+OK
