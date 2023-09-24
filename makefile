@@ -39,6 +39,10 @@ PASSED = `grep -s PASS $(PATHR)*.txt`
 FAIL = `grep -s FAIL $(PATHR)*.txt`
 IGNORE = `grep -s IGNORE $(PATHR)*.txt`
 
+OBJ_FILES = $(wildcard $(PATHO)*.o)
+EXE_FILES = $(wildcard $(PATHB)*.$(TARGET_EXTENSION))
+TXT_FILES = $(wildcard $(PATHR)*.txt)
+
 test: $(BUILD_PATHS) $(RESULTS)
 	@echo "-----------------------\nIGNORES:\n-----------------------"
 	@echo "$(IGNORE)"
@@ -78,11 +82,16 @@ $(PATHO):
 $(PATHR):
 	$(MKDIR) $(subst /,\, ./$(PATHR))
 
-clean:
-	OBJ_FILES = $(CLEANUP) $(PATHO)*.o
-	$(subst /,\, $(OBJ_FILES))
-	$(subst /,\, $(CLEANUP) $(PATHB)*.$(TARGET_EXTENSION))
-	$(subst /,\, $(CLEANUP) $(PATHR)*.txt)
+clean_obj:
+	$(CLEANUP) $(subst /,\, $(OBJ_FILES))
+
+clean_exe:
+	$(CLEANUP) $(subst /,\, $(EXE_FILES))
+
+clean_txt:
+	$(CLEANUP) $(subst /,\, $(TXT_FILES))
+
+clean: clean_obj clean_exe clean_txt
 
 .PRECIOUS: $(PATHB)Test%.$(TARGET_EXTENSION)
 .PRECIOUS: $(PATHD)%.d
