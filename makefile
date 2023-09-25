@@ -14,7 +14,11 @@ else
 endif
 
 .PHONY: clean
+.PHONY: clean_obj
+.PHONY: clean_exe
+.PHONY: clean_txt
 .PHONY: test
+.PHONY: run
 
 PATHU = unity/src/
 PATHS = src/
@@ -23,6 +27,7 @@ PATHB = build/
 PATHD = build/depends/
 PATHO = build/objs/
 PATHR = build/results/
+PATHBAT = bat/
 
 BUILD_PATHS = $(PATHB) $(PATHD) $(PATHO) $(PATHR)
 
@@ -42,6 +47,9 @@ IGNORE = `grep -s IGNORE $(PATHR)*.txt`
 OBJ_FILES = $(wildcard $(PATHO)*.o)
 EXE_FILES = $(wildcard $(PATHB)*.$(TARGET_EXTENSION))
 TXT_FILES = $(wildcard $(PATHR)*.txt)
+
+RUN_SRC_FILES = $(wildcard $(PATHS)*.c)
+RUN_OBJ_FILES = $(patsubst $(PATHS)%.c, $(PATHO)%.o, $(RUN_SRC_FILES))
 
 test: $(BUILD_PATHS) $(RESULTS)
 	@echo "-----------------------\nIGNORES:\n-----------------------"
@@ -92,6 +100,17 @@ clean_txt:
 	$(CLEANUP) $(subst /,\, $(TXT_FILES))
 
 clean: clean_obj clean_exe clean_txt
+
+run:
+	$(COMPILE) -o $(PATHO)main.o $(PATHS)main.c
+	$(LINK) -o $(PATHB)main.$(TARGET_EXTENSION) $(RUN_OBJ_FILES)
+	cls
+	@echo "======== main.$(TARGET_EXTENSION) OUTPUT: ========"
+	$(PATHB)main.$(TARGET_EXTENSION)
+
+clear:
+	$(subst /,\, .\$(PATHBAT)bat_clear.bat)
+
 
 .PRECIOUS: $(PATHB)Test%.$(TARGET_EXTENSION)
 .PRECIOUS: $(PATHD)%.d
